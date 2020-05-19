@@ -1,0 +1,38 @@
+<% layout('layouts/boilerplate') -%>
+<h1>EDIT POST!</h1>
+
+<form action="/posts/<%= post.id %>?_method=PUT" method="POST" id="postEditForm" enctype="multipart/form-data">
+    <div>
+        <input type="text" placeholder="Title" name="post[title]" value="<%= post.title %>">
+    </div>
+    <div>
+        <input type="number" placeholder="Price" name="post[price]" step="0.01" value="<%= post.price %>"> 
+    </div>
+    <div>
+        <input type="file" id="imageUpload" accept="images/*" name="images" multiple />
+        <div>
+        <% post.images.forEach(function(image, i){ %> <!-- the second argument i, acts as an index so it will render each image and assign an index no. this means image 1 = [0] and so on, we call back i for each image -->
+            <img src="<%= image.url %>" alt="car pics" width="200px">
+            <label for="image<%= i %>">Delete?</label>
+            <input type="checkbox" name="deleteImages[]" class="imageDeleteCheckbox" id="image<%= i %>" value="<%= image.public_id %>"> <!-- Here we assign id as image (for each image) and index it with i as we cannot reuse an id for multiple things so we can use i to give id of image1, image2 etc.   -->
+        <%});%>
+        </div>
+    </div>
+    <div>
+        <textarea name="post[description]" cols="30" rows="10" placeholder="Description"><%= post.description %></textarea>
+    </div>
+    <div>
+        <input type="text" placeholder="Location" name="post[location]" value="<%= post.location %>"> 
+    </div>
+    <div>
+        <select name="post[ship]" id="ship" value="<%= post.ship %>">
+            <option value="collection">Collection</option>
+            <option value="ship">Ship</option>
+        </select>
+    </div>
+
+    <input type="submit">
+
+</form>
+
+<script src="/javascripts/post-edit.js"></script>
